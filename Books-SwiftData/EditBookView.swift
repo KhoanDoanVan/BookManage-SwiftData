@@ -18,10 +18,11 @@ struct EditBookView: View {
     @State private var rating: Int?
     @State private var title = ""
     @State private var author = ""
-    @State private var summary = ""
+    @State private var synopsis = ""
     @State private var dateAdded = Date.distantPast
     @State private var dateStared = Date.distantPast
     @State private var dateCompleted = Date.distantPast
+    @State private var recommendedBy = ""
     
     @State private var firstView: Bool = false
     
@@ -101,10 +102,16 @@ struct EditBookView: View {
                     Text("Author")
                         .foregroundStyle(.secondary)
                 }
+                LabeledContent {
+                    TextField("", text: $recommendedBy)
+                } label: {
+                    Text("Recommended by")
+                        .foregroundStyle(.secondary)
+                }
                 Divider()
-                Text("Summary")
+                Text("Synopsis")
                     .foregroundStyle(.secondary)
-                TextEditor(text: $summary)
+                TextEditor(text: $synopsis)
                     .padding(5)
                     .clipShape(
                         .rect(cornerRadius: 20)
@@ -129,10 +136,11 @@ struct EditBookView: View {
                     book.rating = rating
                     book.title = title
                     book.author = author
-                    book.summary = summary
+                    book.synopsis = synopsis
                     book.dateAdded = dateAdded
                     book.dateStarted = dateStared
                     book.dateCompleted = dateCompleted
+                    book.recommendedBy = recommendedBy
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)
@@ -143,10 +151,11 @@ struct EditBookView: View {
             rating = book.rating
             title = book.title
             author = book.author
-            summary = book.summary
+            synopsis = book.synopsis
             dateAdded = book.dateAdded
             dateStared = book.dateStarted
             dateCompleted = book.dateCompleted
+            recommendedBy = book.recommendedBy
         }
     }
     
@@ -156,10 +165,11 @@ struct EditBookView: View {
         || rating != book.rating
         || title != book.title
         || author != book.author
-        || summary != book.summary
+        || synopsis != book.synopsis
         || dateAdded != book.dateAdded
         || dateStared != book.dateStarted
         || dateCompleted != book.dateCompleted
+        || recommendedBy != book.recommendedBy
     }
 }
 
@@ -167,7 +177,7 @@ struct EditBookView: View {
     let preview = Preview(Book.self)
     
     return NavigationStack {
-        EditBookView(book: Book.sampleBooks[2])
+        EditBookView(book: Book.sampleBooks[4])
             .modelContainer(preview.container)
     }
 }

@@ -17,9 +17,11 @@ class Book {
     var dateAdded: Date
     var dateStarted: Date
     var dateCompleted: Date
-    var summary: String
+    @Attribute(originalName: "summary") /// The attribute from swiftData to app knows the original name of the attributes you've just chance name of the attribute
+    var synopsis: String /// new name (old name is summary)
     var rating: Int?
     var status: Status.RawValue
+    var recommendedBy: String = "" /// If you want to update new properties but also don't want the app crash, you must be set the default value to the new properties
     
     init(
         title: String,
@@ -27,18 +29,20 @@ class Book {
         dateAdded: Date = Date.now,
         dateStarted: Date = Date.distantPast,
         dateCompleted: Date = Date.distantPast,
-        summary: String = "",
+        synopsis: String = "",
         rating: Int? = nil,
-        status: Status = .onShelf
+        status: Status = .onShelf,
+        recommendedBy: String = ""
     ) {
         self.title = title
         self.author = author
         self.dateAdded = dateAdded
         self.dateStarted = dateStarted
         self.dateCompleted = dateCompleted
-        self.summary = summary
+        self.synopsis = synopsis
         self.rating = rating
         self.status = status.rawValue
+        self.recommendedBy = recommendedBy
     }
     
     var icon: Image {
