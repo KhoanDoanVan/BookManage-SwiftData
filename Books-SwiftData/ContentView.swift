@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct BookListView: View {
+struct ContentView: View {
 
     var body: some View {
         Text("")
