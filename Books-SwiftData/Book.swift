@@ -22,6 +22,8 @@ class Book {
     var rating: Int?
     var status: Status.RawValue
     var recommendedBy: String = "" /// If you want to update new properties but also don't want the app crash, you must be set the default value to the new properties
+    @Relationship(deleteRule: .cascade) /// If the book has been deleted, all quotes has reference the book was deleted still existed, so using this for make sure delete all reference book relate to the book
+    var quotes: [Quote]?
     
     init(
         title: String,
