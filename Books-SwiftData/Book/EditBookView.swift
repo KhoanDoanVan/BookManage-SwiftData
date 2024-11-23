@@ -25,6 +25,7 @@ struct EditBookView: View {
     @State private var recommendedBy = ""
     
     @State private var firstView: Bool = false
+    @State private var showGenres = false
     
     var body: some View {
         VStack {
@@ -123,11 +124,27 @@ struct EditBookView: View {
                                 lineWidth: 2
                             )
                     }
-                NavigationLink {
-                    QuotesListView(book: book)
-                } label: {
-                    let count = book.quotes?.count ?? 0
-                    Label("^[\(count) Quotes](inflect: true)", systemImage: "quote.opening")
+                if let genres = book.genres {
+                    ViewThatFits {
+                        GenresStackView(genres: genres)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            GenresStackView(genres: genres)
+                        }
+                    }
+                }
+                HStack {
+                    Button("Genres", systemImage: "bookmark.fill") {
+                        showGenres.toggle()
+                    }
+                    .sheet(isPresented: $showGenres) {
+                        GenresView(book: book)
+                    }
+                    NavigationLink {
+                        QuotesListView(book: book)
+                    } label: {
+                        let count = book.quotes?.count ?? 0
+                        Label("^[\(count) Quotes](inflect: true)", systemImage: "quote.opening")
+                    }
                 }
                 .buttonStyle(.bordered)
                 .frame(maxWidth: .infinity, alignment: .trailing)
