@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-enum SortOrder: String, Identifiable, CaseIterable {
+enum SortOrder: LocalizedStringResource, Identifiable, CaseIterable { /// Changes String -> LocalizedStringResource
     case status, title, author
     
     var id: Self {
@@ -18,6 +18,7 @@ enum SortOrder: String, Identifiable, CaseIterable {
 
 struct BookListView: View {
     
+    @State private var isReset: Bool = false
     @State private var createNewBook = false
     @State private var sortOrder = SortOrder.status
     @State private var filter = ""
@@ -32,6 +33,24 @@ struct BookListView: View {
                 }
             }
             .buttonStyle(.bordered)
+            
+            Menu {
+                Button("EN") {
+                    LanguageManager.setLanguage("en")
+                    isReset.toggle()
+                }
+                
+                Button("VIE") {
+                    LanguageManager.setLanguage("vi")
+                    isReset.toggle()
+                }
+            } label: {
+                HStack {
+                    Image(systemName: "a.square.fill")
+                    Text("Languages")
+                }
+            }
+
             
             BookList(
                 sortOrder: sortOrder,
@@ -51,6 +70,18 @@ struct BookListView: View {
                     NewBookView()
                         .presentationDetents([.medium])
                 }
+                .alert("The app has been shutdown", isPresented: $isReset) {
+                    Button("OK") {
+                        closeApp()
+                    }
+                }
+        }
+    }
+    
+    
+    func closeApp() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            exit(0)
         }
     }
 }
