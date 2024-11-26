@@ -26,6 +26,8 @@ class Book {
     var quotes: [Quote]?
     @Relationship(inverse: \Genre.books) /// Many to many relationships
     var genres: [Genre]?
+    @Attribute(.externalStorage) /// This is attribute to SwiftData know and storage large data outside the main sqlite database which is new folder in outside.
+    var bookCover: Data?
     
     init(
         title: String,
